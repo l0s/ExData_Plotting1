@@ -22,9 +22,9 @@ upperBound <-
 filtered <-
   consumption[ consumption$timestamp >= as.POSIXct( '2007-02-01', tz='UTC' )
                & consumption$timestamp < as.POSIXct( '2007-02-03', tz='UTC' ), ]
-#png( filename='plot2.png', width=504, height=504, bg='transparent' )
+png( filename='plot2.png', width=504, height=504, bg='transparent' )
 with( filtered,
       plot( Global_active_power ~ timestamp, type='l',
             ylab='Global Active Power (kilowatts)',
             xlab='' ) )
-#dev.off()
+dev.off()
