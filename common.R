@@ -32,6 +32,8 @@ if( !file.exists( filteredDf ) )
     as.POSIXct( paste( consumption$Date, consumption$Time, sep=' ' ),
                 format='%d/%m/%Y %H:%M:%S', tz='UTC' )
   consumption$Date <- as.Date( consumption$Date, format='%d/%m/%Y' )
+  # Per the instructions, we only care about data from the dates
+  # 2007-02-01 and 2007-02-02
   filtered <-
     consumption[ consumption$timestamp >= as.POSIXct( '2007-02-01',
                                                       tz='UTC' )
@@ -41,3 +43,32 @@ if( !file.exists( filteredDf ) )
 }
 # this creates a Data Frame called 'filtered'
 load( filteredDf )
+
+# Plot 2 and top-left figure of plot 4
+plotGlobalActivePowerVsTime <- function()
+{
+  with( filtered,
+        plot( Global_active_power ~ timestamp, type='l',
+              ylab='Global Active Power (kilowatts)',
+              xlab='' ) )
+}
+
+# Plot 3 and bottom-left figure of plot 4
+plotEnergySubMeteringVsTime <- function()
+{
+  verticalScale <-
+    range( c( filtered$Sub_metering_1, filtered$Sub_metering_2,
+              filtered$Sub_metering_3 ) )
+  with( filtered, {
+    plot( Sub_metering_1 ~ timestamp, type='l', col='black',
+          ylim=verticalScale, xlab='', ylab='' )
+    plot( Sub_metering_2 ~ timestamp, type='l', col='red',
+          ylim=verticalScale, xlab='', ylab='' )
+    plot( Sub_metering_3 ~ timestamp, type='l', col='blue',
+          ylim=verticalScale, xlab='', ylab='Energy sub metering' )
+    legend( 'topright', col=c( 'black', 'red', 'blue' ),
+            legend=c( 'Sub_metering_1', 'Sub_metering_2',
+                      'Sub_metering_3' ),
+            lwd=1 )
+  } )
+}

@@ -1,0 +1,16 @@
+source( 'common.R' )
+
+png( filename='plot4.png', width=504, height=504, bg='transparent' )
+#par( mfrow=c( 2, 2 ) )
+#layout( matrix( c( 1, 1, 3, 1 ), 2, 2, byrow=TRUE ) )
+split.screen( c( 2, 2 ) )
+screen( 1 )
+plotGlobalActivePowerVsTime()
+screen( 2 )
+with( filtered, plot( Voltage~timestamp, xlab='datetime', type='l' ) )
+screen( 3 )
+plotEnergySubMeteringVsTime()
+screen( 4 )
+with( filtered,
+      plot( Global_reactive_power~timestamp, xlab='datetime', type='l' ) )
+dev.off()
