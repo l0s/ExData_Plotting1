@@ -45,20 +45,26 @@ if( !file.exists( filteredDf ) )
 load( filteredDf )
 
 # Plot 2 and top-left figure of plot 4
-plotGlobalActivePowerVsTime <- function()
+plotGlobalActivePowerVsTime <- function( units=TRUE )
 {
+  label <- 'Global Active Power'
+  if( units )
+  {
+    label <- paste( c( label, '(kilowatts)' ), collapse=' ' )
+  }
   with( filtered,
         plot( Global_active_power ~ timestamp, type='l',
-              ylab='Global Active Power (kilowatts)',
+              ylab=label,
               xlab='' ) )
 }
 
 # Plot 3 and bottom-left figure of plot 4
-plotEnergySubMeteringVsTime <- function()
+plotEnergySubMeteringVsTime <- function( legendBorder=TRUE )
 {
   verticalScale <-
     range( c( filtered$Sub_metering_1, filtered$Sub_metering_2,
               filtered$Sub_metering_3 ) )
+  borderSpecifier <- ifelse( legendBorder, 'o', 'n' )
   with( filtered, {
     plot( Sub_metering_1 ~ timestamp, type='l', col='black',
           ylim=verticalScale, xlab='', ylab='' )
@@ -69,6 +75,6 @@ plotEnergySubMeteringVsTime <- function()
     legend( 'topright', col=c( 'black', 'red', 'blue' ),
             legend=c( 'Sub_metering_1', 'Sub_metering_2',
                       'Sub_metering_3' ),
-            lwd=1 )
+            lwd=1, bty=borderSpecifier )
   } )
 }
